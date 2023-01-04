@@ -1,23 +1,7 @@
 import axios, { Method } from 'axios'
 import { useCallback, useRef, useState } from 'react'
-// import { useAppContext } from '../contexts'
+import { IRequestOptions } from '../model'
 export const API_BASE_URL = 'http://144.217.42.203:5000/'
-
-export interface IEventsRequest {
-    onComplete?: () => void
-    onError?: () => void
-}
-
-export interface IRequestOptions {
-    method: string
-    url: string
-    headers?: object
-    body?: object
-    queryParams?: any
-    errorMessage?: string
-    successMessage?: string
-    events?: IEventsRequest
-}
 
 const useRequest = (requestOptions: IRequestOptions) => {
     const {
