@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, Method } from 'axios'
 import { useCallback, useRef, useState } from 'react'
 import { IRequestOptions } from './model'
-
+import { buildHeaders, buildQueryParams } from './utils'
 const useRequest = <T>(
   requestOptions: IRequestOptions
 ): [
@@ -21,29 +21,6 @@ const useRequest = <T>(
   const [data, setData] = useState<T | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const buildQueryParams = () => {
-    let urlBuild: string = url
-    if (queryParams) {
-      urlBuild = urlBuild.concat('?')
-      for (let key in queryParams)
-        urlBuild = urlBuild
-          .concat(key)
-          .concat('=')
-          .concat(queryParams[key])
-          .concat('&')
-
-      urlBuild = urlBuild.substring(0, urlBuild.length - 1)
-    }
-    return urlBuild
-  }
-
-  const buildHeaders = () => {
-    return {
-      'Content-Type': 'application/json',
-      ...headers,
-    }
-  }
-
   const clearRef = useRef<() => void>(() => {})
   clearRef.current = useCallback(() => {
     setData(undefined)
@@ -55,8 +32,8 @@ const useRequest = <T>(
     clearData()
     axios({
       method: method as Method,
-      url: buildQueryParams(),
-      headers: buildHeaders(),
+      url: buildQueryParams(url, queryParams),
+      headers: buildHeaders(headers),
       data: body,
     })
       .then((response: AxiosResponse) => {
