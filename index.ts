@@ -1,2 +1,1 @@
-export { default as useRequest } from './src/useRequest'
-export { IEventsRequest, IRequestOptions } from './src/model'
+export { useRequest, IEventsRequest, IRequestOptions } from './src'
