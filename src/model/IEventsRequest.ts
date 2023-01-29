@@ -1,5 +1,5 @@
 
 export interface IEventsRequest {
-    onComplete?: () => void
-    onError?: () => void
+  onComplete?: () => void
+  onError?: (err: any) => void
 }
