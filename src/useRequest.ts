@@ -29,7 +29,8 @@ const useRequest = <T>(
 
   const buildFetch = () => {
     setIsLoading(true)
-    clearData()
+    if (queryParams.page && queryParams.page == 1) clearData()
+
     axios({
       method: method as Method,
       url: buildQueryParams(url, queryParams),
