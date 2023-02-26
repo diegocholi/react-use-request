@@ -29,7 +29,6 @@ const useRequest = <T>(
 
   const buildFetch = () => {
     setIsLoading(true)
-    if (queryParams.page && queryParams.page == 1) clearData()
 
     axios({
       method: method as Method,
@@ -38,9 +37,12 @@ const useRequest = <T>(
       data: body,
     })
       .then((response: AxiosResponse) => {
-        const data = response.data
-        if (data) {
-          setData(data)
+        const dataResponse: T = response.data
+        if (dataResponse) {
+          if (!data) setData(dataResponse)
+          else if (queryParams.page > 1)
+            // @ts-ignore
+            setData((oldValues) => [...oldValues, ...dataResponse])
         } else setData(undefined)
 
         setIsLoading(false)
